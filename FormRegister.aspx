@@ -38,6 +38,10 @@
                 </div>
             </div>
 
+            <div class="col-sm-6 p-2 rounded" id="ValidationInputs" style="display: none">
+                <div class="mb-1" id="text"></div>
+            </div>
+
             <div class="row g-3 mb-4">
                 <div class="col-md-1">
                     <label class="form-check-label" for="insertSexo">Sexo</label>
@@ -73,7 +77,6 @@
                 </div>
                 <div class="col-md-2">
                     <asp:DropDownList class="btn btn-light text-center" runat="server" ID="Departamento">
-
                     </asp:DropDownList>
                 </div>
             </div>

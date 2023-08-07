@@ -14,10 +14,11 @@ using System.Xml.Linq;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Reflection.Emit;
+using System.Web.Services;
 
 namespace registerStudents
 {
-    
+
     public partial class FormRegister : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
@@ -51,7 +52,7 @@ namespace registerStudents
             info.userDepartamento = Departamento.SelectedIndex;
             info.userRequerimiento = Requerimientos.Text;
             client.getForm(info);
-            
+
         }
 
 
@@ -102,7 +103,7 @@ namespace registerStudents
         }
 
 
-        protected void createSession(String nombre, String apellido,String sexo, String Departamento)
+        protected void createSession(String nombre, String apellido, String sexo, String Departamento)
         {
             Session["Nombre"] = nombre;
             Session["Apellido"] = apellido;
@@ -129,7 +130,7 @@ namespace registerStudents
                 string departamento = Departamento.Text;
                 string requerimientosN = Requerimientos.Text;
                 serviceCall2();
-                createSession(nombre, apellido,sexo,departamento);
+                createSession(nombre, apellido, sexo, departamento);
                 createCookie(sexo, departamento);
                 mensaje.Text = "DATOS ENVIADOS DESDE C#:<br />Nombre: " + nombre + "<br />Apellido: " + apellido + "<br />Sexo: " + sexo + "<br />Email: " + email
                     + "<br />Direccion: " + direccion + "<br />Departamento: " + departamento + "<br />Requerimientos: " + requerimientosN;
@@ -138,5 +139,37 @@ namespace registerStudents
             }
 
         }
+        [WebMethod]
+        public static String getInformacion(String Name, String lastName)
+        {
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB ;Initial Catalog=DataBaseRegister;Integrated Security=True";
+
+            string query = "SELECT COUNT(*) FROM RegisterEstudent WHERE nombre = @Name AND Apellidos = @lastName";
+
+            int count = 0;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Name", Name);
+                    command.Parameters.AddWithValue("@lastName", lastName);
+                    connection.Open();
+                    count = (int)command.ExecuteScalar();
+                }
+            }
+
+            if (count > 0)
+
+            {
+                
+                return  "A)" + Name + " " + lastName + " ya está registrado.";
+            }
+            else
+            {
+                return "B)" + Name + " " + lastName + " no está registrado.";
+            }
+        }
+
     }
 }

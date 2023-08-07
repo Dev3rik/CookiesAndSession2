@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -30,10 +31,17 @@ namespace registerStudents
             Response.Redirect("FormRegister");
         }
 
+
         private void deleteSession()
         {
             Session.RemoveAll();
             Session.Abandon();
+        }
+
+        [WebMethod]
+        public static String getInformacion(String valor)
+        {
+            return "Desde el servidor se recibio :" + valor;
         }
     }
 }

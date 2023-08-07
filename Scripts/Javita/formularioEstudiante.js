@@ -58,3 +58,44 @@ function enviar() {
 
 }
 
+function VerificateInput(Nombre,Apellido) {
+
+    let Datos = {
+        Name: Nombre,
+        lastName: Apellido
+    };
+    $.ajax({
+        url: 'FormRegister.aspx/getInformacion',
+        type: 'POST',
+        async: true,
+        data: JSON.stringify(Datos),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: exito
+
+    });
+    return false;
+}
+
+function exito(data) {
+    console.log("Respuesta del servidor:", data.d);
+    $('#ValidationInputs').removeClass("text-success text-danger");
+    $('#ValidationInputs').css("display", "block");
+    $("#text").text(data.d);
+
+    var returnS = data.d;
+    if (returnS[0] == "A") {
+        $('#ValidationInputs').addClass('text-danger');
+    }
+    else {
+        $('#ValidationInputs').addClass('text-success');
+    }
+    return false;
+}
+
+
+function onInputFinish() {
+
+    VerificateInput(masCortos.value,cortoApellido.value);
+}
+cortoApellido.addEventListener('input', onInputFinish);

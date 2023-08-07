@@ -1,4 +1,19 @@
-﻿let cookies = document.cookie.split(';');
+﻿function callAjax() {
+    let send = $('#Cookies').val();
+    console.log(send);
+    $.ajax({
+        url:'AuxiliarCookies.aspx/getInformacion',
+        type:'POST',
+        async:true,
+        data: '{ valor: "' + send + ' " }',
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: exito
+    
+});
+return false;
+}
+let cookies = document.cookie.split(';');
 function Cookie() {
     for (let i = 0; i < cookies.length; i++) {
         let cookie = cookies[i].trim();
@@ -12,3 +27,12 @@ function Cookie() {
         }
     }
 }
+
+function exito(data) {
+    console.log("Respuesta del servidor:", data.d);
+    var returnS = data.d;
+    $('#TextBoxAjax').val(data.d);
+    $('#TextBoxAjax').css("visibility", "visible");
+    return false;
+}
+

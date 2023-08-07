@@ -11,7 +11,8 @@ namespace registerStudents
         public static void RegisterRoutes(RouteCollection routes)
         {
             var settings = new FriendlyUrlSettings();
-            settings.AutoRedirectMode = RedirectMode.Permanent;
+            //settings.AutoRedirectMode = RedirectMode.Permanent; // antes
+            settings.AutoRedirectMode = RedirectMode.Off; // Cambiar por esta linea
             routes.EnableFriendlyUrls(settings);
         }
     }
